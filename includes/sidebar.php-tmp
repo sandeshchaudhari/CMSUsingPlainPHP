@@ -1,0 +1,87 @@
+<div class="col-md-4">
+
+    <!-- Blog Search Well -->
+    <div class="well">
+        <h4>Blog Search</h4>
+        <form action="search.php" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" name="submit" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+                    <!-- /.input-group -->
+        </form><!--form end-->
+    </div>
+    <!--Login Form-->
+    <div class="well">
+        <h4>Login</h4>
+        <form class="form-horizontal" action="includes/login.php" method="post">
+  <div class="form-group">
+    <label for="user_name" class="col-sm-4 control-label">Username</label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter username">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password" class="col-sm-4 control-label">Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-8">
+      <button type="submit" class="btn btn-primary" name="login">Login</button>
+    </div>
+  </div>
+</form><!--form end-->
+    </div>
+
+                <!-- Blog Categories Well -->
+                <div class="well">
+                    <h4>Blog Categories</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="list-unstyled">
+<?php
+
+$query                         = "SELECT * FROM categories";
+$select_all_categories_sidebar = mysqli_query($connection, $query);
+if (!$select_all_categories_sidebar) {
+
+	die("Query Failed".mysqli_error($connection));
+}
+ while ($row = mysqli_fetch_assoc($select_all_categories_sidebar)) {
+	$category = $row['cat_title'];
+	$cat_id   = $row['cat_id'];
+	echo " <li><a href='category.php?cat_id=$cat_id'>$category</a>
+                                </li>";
+
+}
+
+?>
+<!--
+
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                <li><a href="#">Category Name</a>
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-6 -->
+
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                <!-- Side Widget Well -->
+<?php include "widget.php"
+?>
+
+    </div>

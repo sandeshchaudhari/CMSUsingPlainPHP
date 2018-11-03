@@ -1,0 +1,60 @@
+<?php
+
+function insert_category() {
+	global $connection;
+	if (isset($_POST['submit'])) {
+
+		$cat_title = $_POST['cat_title'];
+		$cat_title = trim($cat_title);
+		if ($cat_title == " " OR empty($cat_title)) {
+
+			echo "<h1>This field should not be empty</h1>";
+		} else {
+
+			$query        = "INSERT INTO categories(cat_title) VALUES('$cat_title')";
+			$add_category = mysqli_query($connection, $query);
+			if (!$add_category) {
+
+				die("<h1>Qurery Failed</h1>".mysqli_error($connection));
+			}
+
+		}
+
+	}
+}
+
+function find_all_categories() {
+	global $connection;
+	$query               = "SELECT * FROM categories";
+	$select_all_category = mysqli_query($connection, $query);
+	if (!$select_all_category) {
+		die("Query Failed".mysqli_error($connection));
+	} else {
+		while ($row = mysqli_fetch_assoc($select_all_category)) {
+			$cat_id    = $row['cat_id'];
+			$cat_title = $row['cat_title'];
+			echo "<tr>";
+			echo "<td>$cat_id</td>";
+			echo "<td>$cat_title</td>";
+			echo "<td><a href='categories.php?delete={$cat_id}'>Delete</a></td>";
+			echo "<td><a href='categories.php?update={$cat_id}'>Update</a></td>";
+			echo "</tr>";
+		}
+	}
+}
+
+function delete_categories() {
+	global $connection;
+	if (isset($_GET['delete'])) {
+		$get_cat_id          = $_GET['delete'];
+		$query               = "DELETE FROM categories WHERE cat_id=$get_cat_id";
+		$delete_query_result = mysqli_query($connection, $query);
+		header("Refresh:0; url=categories.php");
+		//Refresh the page
+		if (!$delete_query_result) {
+			die("Query Failed".mysqli_error($connection));
+		}
+	}
+}
+
+?>
